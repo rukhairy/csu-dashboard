@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "CSU Dashboard",
+  "version": "1.0",
+  "description": "An extension with bookmark management, countdown, and calendar functionalities related to Creative Services Unit.",
+  "permissions": ["storage"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
