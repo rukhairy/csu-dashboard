@@ -1,205 +1,78 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Existing code for tabs, bookmarks, countdowns, etc.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+  <link rel="stylesheet" href="newtab.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <!-- Tab Navigation -->
+<div class="tabs">
+  <button class="tab-button active" id="bookmark-tab"><i class="fas fa-bookmark"></i> Bookmarks</button>
+  <button class="tab-button" id="countdown-tab"><i class="fas fa-hourglass-half"></i> Countdown</button>
+  <button class="tab-button" id="calendar-tab"><i class="fas fa-calendar-alt"></i> Calendar</button>
+  <button class="tab-button" id="dashboard-tab"><i class="fas fa-chart-line"></i> Dashboard</button>
+</div>
 
-  // Function to handle tab switching
-  function openTab(tabName) {
-    let contents = document.getElementsByClassName('tab-content');
-    let buttons = document.getElementsByClassName('tab-button');
+<!-- Bookmark Tab Content -->
+<div id="bookmark" class="tab-content active">
+  <h2>Bookmarks</h2>
+  <input type="text" id="bookmark-name" placeholder="Bookmark name">
+  <input type="url" id="bookmark-url" placeholder="Bookmark URL">
+  <button id="add-bookmark">Add Bookmark</button>
 
-    // Hide all tab contents
-    for (let i = 0; i < contents.length; i++) {
-      contents[i].classList.remove('active');
-    }
+  <!-- Bookmark tiles container -->
+  <div id="bookmark-tiles" class="bookmark-tiles"></div>
+</div>
 
-    // Remove active class from all buttons
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].classList.remove('active');
-    }
-
-    // Show the selected tab's content and mark the button as active
-    document.getElementById(tabName).classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-  }
-
-  // Default tab to show on page load
-  openTab('bookmark');
-
-  // Event listeners for tab buttons
-  document.getElementById('bookmark-tab').addEventListener('click', function() {
-    openTab('bookmark');
-  });
-
-  document.getElementById('countdown-tab').addEventListener('click', function() {
-    openTab('countdown');
-  });
-
-  document.getElementById('calendar-tab').addEventListener('click', function() {
-    openTab('calendar');
-  });
+<!-- Countdown Tab Content -->
+<div id="countdown" class="tab-content">
+  <h2>Countdown</h2>
   
-  document.getElementById('dashboard-tab').addEventListener('click', function() {
-    openTab('dashboard');
-  });
+  <!-- Countdown Input Section -->
+  <div class="countdown-inputs">
+    <input type="text" id="event-name" placeholder="Event name">
+    <input type="date" id="event-date">
+    <button id="add-countdown">Add Countdown</button>
+  </div>
 
-  // Add bookmark functionality with tile format
-  document.getElementById('add-bookmark').addEventListener('click', function() {
-    const name = document.getElementById('bookmark-name').value;
-    const url = document.getElementById('bookmark-url').value;
+  <!-- Countdown List Section -->
+  <div id="countdown-list"></div>
+</div>
 
-    if (name && url) {
-      const bookmarkTiles = document.getElementById('bookmark-tiles');
-      const tile = document.createElement('div');
-      tile.className = 'bookmark-tile';
+<!-- Calendar Tab Content -->
+<div id="calendar" class="tab-content">
+  <h2>Calendar</h2>
+  <!-- Placeholder content for the calendar -->
+</div>
 
-      // Create the favicon URL (assuming favicon is at /favicon.ico)
-      const faviconUrl = new URL('/favicon.ico', url).href;
+<!-- Dashboard Tab Content -->
+<div id="dashboard" class="tab-content">
+  <h2>CSU Dashboard</h2>
 
-      // Add the favicon and bookmark name to the tile
-      tile.innerHTML = `
-        <img src="${faviconUrl}" onerror="this.src='fallback-icon.png';" alt="Favicon">
-        <a href="${url}" target="_blank">${name}</a>
-      `;
+  <!-- Days Remaining Section -->
+  <h3>Days Remaining in Financial Year</h3>
+  <p>End of Year: 31 December 2024</p>
+  <p>Days Remaining: <span id="days-remaining"></span></p>
 
-      // Append the new tile to the bookmark tiles container
-      bookmarkTiles.appendChild(tile);
+  <!-- Budget Utilization Section -->
+  <h3>Budget Utilization</h3>
+  <label for="total-budget">Total Budget (RM):</label>
+  <input type="number" id="total-budget" placeholder="Enter total budget">
+  <label for="used-budget">Used Budget (RM):</label>
+  <input type="number" id="used-budget" placeholder="Enter used budget">
+  <p>Remaining Budget Percentage: <span id="remaining-budget-percent"></span>%</p>
 
-      // Save bookmark to chrome storage
-      chrome.storage.sync.get(['bookmarks'], function(result) {
-        let bookmarks = result.bookmarks || [];
-        bookmarks.push({ name, url });
-        chrome.storage.sync.set({ bookmarks }, function() {
-          console.log('Bookmark saved');
-        });
-      });
+  <!-- CSU KPI Section -->
+  <h3>CSU KPI Progress</h3>
+  <label for="kpi-target">KPI Target Achieved (%):</label>
+  <input type="number" id="kpi-target" placeholder="Enter KPI percentage">
 
-      // Clear input fields
-      document.getElementById('bookmark-name').value = '';
-      document.getElementById('bookmark-url').value = '';
-    }
-  });
+  <button id="update-dashboard">Update Dashboard</button>
+</div>
 
-  // Load bookmarks from chrome storage on startup
-  chrome.storage.sync.get(['bookmarks'], function(result) {
-    const bookmarks = result.bookmarks || [];
-    bookmarks.forEach(bookmark => {
-      const bookmarkTiles = document.getElementById('bookmark-tiles');
-      const tile = document.createElement('div');
-      tile.className = 'bookmark-tile';
-
-      const faviconUrl = new URL('/favicon.ico', bookmark.url).href;
-
-      tile.innerHTML = `
-        <img src="${faviconUrl}" onerror="this.src='fallback-icon.png';" alt="Favicon">
-        <a href="${bookmark.url}" target="_blank">${bookmark.name}</a>
-      `;
-
-      bookmarkTiles.appendChild(tile);
-    });
-  });
-
-  // Add countdown functionality
-  document.getElementById('add-countdown').addEventListener('click', function() {
-    const eventName = document.getElementById('event-name').value;
-    const eventDate = document.getElementById('event-date').value;
-
-    if (eventName && eventDate) {
-      const countdownList = document.getElementById('countdown-list');
-      const countdownItem = document.createElement('li');
-
-      // Calculate days remaining
-      const eventDateObj = new Date(eventDate);
-      const today = new Date();
-      const diffTime = Math.abs(eventDateObj - today);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      // Add the countdown to the list
-      countdownItem.innerHTML = `${eventName} - ${diffDays} days remaining (${eventDate})`;
-      countdownList.appendChild(countdownItem);
-
-      // Save countdown to chrome storage
-      chrome.storage.sync.get(['countdowns'], function(result) {
-        let countdowns = result.countdowns || [];
-        countdowns.push({ eventName, eventDate });
-        chrome.storage.sync.set({ countdowns }, function() {
-          console.log('Countdown saved');
-        });
-      });
-
-      // Clear input fields
-      document.getElementById('event-name').value = '';
-      document.getElementById('event-date').value = '';
-    }
-  });
-
-  // Load countdowns from chrome storage on startup
-  chrome.storage.sync.get(['countdowns'], function(result) {
-    const countdowns = result.countdowns || [];
-    countdowns.forEach(countdown => {
-      const countdownList = document.getElementById('countdown-list');
-      const countdownItem = document.createElement('li');
-
-      const eventDateObj = new Date(countdown.eventDate);
-      const today = new Date();
-      const diffTime = Math.abs(eventDateObj - today);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      countdownItem.innerHTML = `${countdown.eventName} - ${diffDays} days remaining (${countdown.eventDate})`;
-      countdownList.appendChild(countdownItem);
-    });
-
-
-  // Calendar placeholder functionality
-  // You can replace this with actual calendar logic or third-party integration later
-  const calendarElement = document.getElementById('calendar');
-  calendarElement.innerHTML = `<h3>Calendar View</h3><p>Coming Soon!</p>`;
-});
-
-  // --- Dashboard Functionality ---
-
-  // Calculate days remaining to end of year
-  function calculateDaysRemaining() {
-    const endDate = new Date('2024-12-31');
-    const today = new Date();
-    const diffTime = Math.abs(endDate - today);
-    const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    document.getElementById('days-remaining').innerText = daysRemaining;
-  }
-
-  // Function to update budget and KPI calculations
-  function updateDashboard() {
-    const totalBudget = parseFloat(document.getElementById('total-budget').value) || 0;
-    const usedBudget = parseFloat(document.getElementById('used-budget').value) || 0;
-    const remainingBudget = totalBudget - usedBudget;
-    const remainingBudgetPercent = (remainingBudget / totalBudget) * 100;
-
-    const kpiTarget = parseFloat(document.getElementById('kpi-target').value) || 0;
-
-    // Update remaining budget percentage
-    document.getElementById('remaining-budget-percent').innerText = remainingBudgetPercent.toFixed(2);
-
-    // Optionally save the data (e.g., to chrome storage or another method)
-    chrome.storage.sync.set({
-      totalBudget,
-      usedBudget,
-      kpiTarget
-    }, function() {
-      console.log('Dashboard data saved');
-    });
-  }
-
-  // Load data from storage (if available)
-  chrome.storage.sync.get(['totalBudget', 'usedBudget', 'kpiTarget'], function(result) {
-    if (result.totalBudget) document.getElementById('total-budget').value = result.totalBudget;
-    if (result.usedBudget) document.getElementById('used-budget').value = result.usedBudget;
-    if (result.kpiTarget) document.getElementById('kpi-target').value = result.kpiTarget;
-
-    // Perform the update when loading saved data
-    updateDashboard();
-  });
-
-  // Event listener to update the dashboard
-  document.getElementById('update-dashboard').addEventListener('click', updateDashboard);
-
-  // Calculate days remaining on load
-  calculateDaysRemaining();
-});
+  <script src="newtab.js"></script>
+</body>
+</html>
