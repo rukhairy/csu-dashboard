@@ -10,10 +10,10 @@
 <body>
   <!-- Tab Navigation -->
 <div class="tabs">
-  <button class="tab-button active" id="bookmark-tab"><i class="fas fa-bookmark"></i> Bookmarks</button>
   <button class="tab-button" id="countdown-tab"><i class="fas fa-hourglass-half"></i> Countdown</button>
-  <button class="tab-button" id="calendar-tab"><i class="fas fa-calendar-alt"></i> Calendar</button>
   <button class="tab-button" id="dashboard-tab"><i class="fas fa-chart-line"></i> Dashboard</button>
+  <button class="tab-button" id="calendar-tab"><i class="fas fa-calendar-alt"></i> Calendar</button>
+  <button class="tab-button active" id="bookmark-tab"><i class="fas fa-bookmark"></i> Bookmarks</button>
 </div>
 
 <!-- Bookmark Tab Content -->
@@ -21,7 +21,7 @@
   <h2>Bookmarks</h2>
   <input type="text" id="bookmark-name" placeholder="Bookmark name">
   <input type="url" id="bookmark-url" placeholder="Bookmark URL">
-  <button id="add-bookmark">Add Bookmark</button>
+  <button class="btn" id="add-bookmark">Add Bookmark</button>
 
   <!-- Bookmark tiles container -->
   <div id="bookmark-tiles" class="bookmark-tiles"></div>
@@ -30,15 +30,11 @@
 <!-- Countdown Tab Content -->
 <div id="countdown" class="tab-content">
   <h2>Countdown</h2>
-  
-  <!-- Countdown Input Section -->
-  <div class="countdown-inputs">
-    <input type="text" id="event-name" placeholder="Event name">
-    <input type="date" id="event-date">
-    <button id="add-countdown">Add Countdown</button>
-  </div>
+  <input type="text" id="event-name" placeholder="Event name">
+  <input type="date" id="event-date">
+  <button id="add-countdown" class="btn"></button>
 
-  <!-- Countdown List Section -->
+  <!-- Countdown list with remove button -->
   <div id="countdown-list"></div>
 </div>
 
@@ -70,7 +66,7 @@
   <label for="kpi-target">KPI Target Achieved (%):</label>
   <input type="number" id="kpi-target" placeholder="Enter KPI percentage">
 
-  <button id="update-dashboard">Update Dashboard</button>
+  <button class="btn" id="update-dashboard">Update Dashboard</button>
 </div>
 
   <script src="newtab.js"></script>
