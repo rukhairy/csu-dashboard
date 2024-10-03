@@ -90,29 +90,80 @@ input[type="date"] {
   font-size: 16px;
 }
 
-/* Button styling */
+/* General Button Styling */
+@charset "UTF-8";
+
+/* Import the corporate font */
+@import url("https://fonts.cdnfonts.com/css/filson-pro");
+
+/* Apply the corporate font globally */
+body, button, input, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Filson Pro', sans-serif; /* Use the imported corporate font */
+}
+
+/* Specific button styling */
 button {
-  background-color: #007bff;
+  background-color: #144eb6; /* Updated button color */
   color: white;
   border: none;
-  padding: 12px 20px;
+  padding: 10px 24px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin-top: 10px;
   cursor: pointer;
-  border-radius: 5px;
-  width: 250px; /* Fixed width for uniformity */
+  border-radius: 50px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Filson Pro', sans-serif; /* Apply the corporate font */
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0c3b88; /* Darker blue on hover */
 }
 
-button#update-dashboard {
-  display: block;
-  margin: 0 auto; /* Center the button horizontally */
+button.remove-countdown {
+  background-color: transparent;
+  color: #ff4c4c;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: color 0.3s ease;
+  font-family: 'Filson Pro', sans-serif; /* Apply the corporate font */
+}
+
+button.remove-countdown:hover {
+  color: #d43f3f;
+}
+
+
+/* Countdown List Items */
+.countdown-item {
+  position: relative;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.countdown-info {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  button {
+    width: 100%; /* Ensure buttons scale for smaller screens */
+  }
 }
 
 /* Fix the gap between tabs and content */
