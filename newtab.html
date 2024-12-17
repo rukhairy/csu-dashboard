@@ -72,6 +72,16 @@
 
   <button class="btn" id="update-dashboard">Update Dashboard</button>
 </div>
+  
+  <!-- UI display update centralized shared data -->
+  <div>
+    <h2>Centralized Shared Data</h2>
+    <div id="shared-data">Loading...</div>
+    <input type="text" id="update-input" placeholder="Enter new message">
+    <button onclick="updateSharedData(document.getElementById('update-input').value)">
+        Update Shared Data
+    </button>
+</div>
 
   <script src="newtab.js"></script>
 </body>
