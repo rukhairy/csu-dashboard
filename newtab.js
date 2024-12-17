@@ -1,4 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
+// Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyAKHy2PIApZZVWshKCVfo7O603hhxCbcEk",
+  authDomain: "csu-dashboard.firebaseapp.com",
+  databaseURL: "https://csu-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "csu-dashboard",
+  storageBucket: "csu-dashboard.firebasestorage.app",
+  messagingSenderId: "544436699812",
+  appId: "1:544436699812:web:1ab4bd4f09f2d222dcdc31",
+  measurementId: "G-D98R0Z7JKW"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Fetch and Display Data
+function fetchSharedData() {
+    database.ref('sharedData').on('value', (snapshot) => {
+        const data = snapshot.val();
+        document.getElementById('shared-data').innerText = data ? data.message : "No data yet.";
+    });
+}
+
+// Update Shared Data
+function updateSharedData(newMessage) {
+    database.ref('sharedData').set({ message: newMessage });
+}
+
+// On Page Load
+fetchSharedData();
+
+  
   // Function to handle tab switching
   function openTab(tabName) {
     let contents = document.getElementsByClassName('tab-content');
